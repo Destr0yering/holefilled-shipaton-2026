@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { initialHole } from '../data';
+import { demoScenarios, initialHole } from '../data';
 import { acceptCandidate, incentiveDecision, qualifiedCandidates } from '../domain/workflow';
 
 describe('HoleFilled workflow', () => {
@@ -25,5 +25,20 @@ describe('HoleFilled workflow', () => {
   it('rejects stale versions', () => {
     expect(acceptCandidate(initialHole, 'maya', 0, { incentiveCents: 0, transportation: '', eta: '' }).code).toBe('STALE_VERSION');
   });
-});
 
+  it('keeps every sector demo deterministic, qualified, and fillable', () => {
+    expect(demoScenarios.map((scenario) => scenario.id)).toEqual(['warehouse', 'server', 'cook', 'nurse', 'crossing-guard']);
+    for (const scenario of demoScenarios) {
+      expect(qualifiedCandidates(scenario.hole)).toHaveLength(3);
+      const winner = scenario.hole.candidates.find((candidate) => candidate.id === scenario.winnerCandidateId);
+      expect(winner?.barrier).toBe('transportation');
+      const result = acceptCandidate(scenario.hole, scenario.winnerCandidateId, 1, {
+        incentiveCents: scenario.incentiveCents,
+        transportation: scenario.transportation,
+        eta: scenario.eta,
+      });
+      expect(result.code).toBe('ASSIGNED');
+      expect(result.hole.assignedCandidateId).toBe(scenario.winnerCandidateId);
+    }
+  });
+});

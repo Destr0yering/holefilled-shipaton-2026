@@ -36,3 +36,10 @@
 - Browser plugin bootstrap was unavailable in this environment, so visual verification used installed Chrome headless against the local production export.
 - Nano OpenRouter remained unavailable because the SSH noninteractive environment did not receive `OPENROUTER_API_KEY`; no paid fallback was used.
 
+## 2026-08-21 — Multi-sector demonstration expansion
+
+- Added five selectable fictional incidents: forklift operator, banquet server, line cook, registered nurse, and crossing guard.
+- Each scenario has sector-specific qualifications, escalation timing, incentive limits, transportation options, concurrent worker responses, and a deterministic winning assignment.
+- Added a public-evidence brief based on UKG customer stories across healthcare, manufacturing/distribution, hospitality/food service, and public-sector education.
+- Preserved strict claim boundaries: the demo is not certified by UKG, named UKG customers are not represented in product fixtures, and all organizations and outcomes are fictional.
+- Kept Got2Get2School outside scope; the crossing-guard scenario is employer workforce coverage, with school-board authorization and background-check responsibility.

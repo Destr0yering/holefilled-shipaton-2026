@@ -14,7 +14,7 @@ A single last-minute absence can disrupt a warehouse line, hotel desk, restauran
 
 HoleFilled is an AI-assisted shift-recovery layer designed to connect to an employer's existing HR or scheduling system. When a schedule change creates an open shift, HoleFilled ranks qualified people from that employer's internal worker pool, starts bounded SMS outreach and optional voice outreach, learns why candidates decline, and applies employer-approved remedies. If transportation is the blocker, it can propose Got2Get2Work coordination or a rideshare credit. Incentives remain constrained by policy, with manager approval required above configured limits. The first eligible acceptance wins atomically and competing outreach is closed.
 
-The current hackathon build is a deterministic cross-platform proof of concept demonstrating this complete decision flow with fictional warehouse data. It does not claim that production telephony or HR connectors are already live.
+The current hackathon build is a deterministic cross-platform proof of concept demonstrating this decision flow across five fictional employer scenarios: warehouse, hospitality, food service, healthcare, and public-sector education. It does not claim that production telephony or HR connectors are already live.
 
 ## Why This Matters
 
@@ -66,7 +66,7 @@ npm run web
 
 In the application:
 
-1. Review the critical warehouse incident and the three qualified fictional fillers.
+1. Choose a fictional sector scenario, or use the warehouse incident as the primary judging path, and review its three qualified fillers.
 2. Start outreach and observe concurrent candidate states.
 3. Continue until Maya's transportation barrier is identified.
 4. Apply the policy-approved transportation/incentive response.

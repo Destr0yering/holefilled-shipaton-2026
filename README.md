@@ -64,6 +64,8 @@ These HTTPS pages are suitable for preview and store-listing preparation. Add a 
 5. Confirm that one assignment wins and the manager sees “HoleFilled.”
 6. Open Pro to see the RevenueCat-aware purchase and restore boundary.
 
+The dashboard also includes selectable fictional demos for a banquet server, line cook, registered nurse, and crossing guard. Each scenario applies sector-specific qualifications, policy limits, worker responses, and transportation options while using the same auditable HoleFilled workflow. See `docs/research/UKG_SECTOR_DEMO_STRATEGY.md` for the public UKG sector evidence and claim boundaries.
+
 ## RevenueCat
 
 Web preview uses a clearly labeled in-memory entitlement. Native builds load `react-native-purchases` through the platform-specific adapter using `EXPO_PUBLIC_REVENUECAT_IOS_API_KEY` or `EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY`. Only RevenueCat public SDK keys belong in Expo environment variables; secret keys must remain server-side.

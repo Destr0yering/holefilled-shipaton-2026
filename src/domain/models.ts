@@ -43,6 +43,23 @@ export interface StaffingHole {
   eta?: string;
 }
 
+export interface DemoScenario {
+  id: string;
+  sector: 'Distribution' | 'Hospitality' | 'Food service' | 'Healthcare' | 'Public sector';
+  organizationLabel: string;
+  operationsLabel: string;
+  headline: string;
+  requiredLabel: string;
+  escalationMinutes: number;
+  winnerCandidateId: string;
+  resolutionLabel: string;
+  transportation: string;
+  incentiveCents: number;
+  eta: string;
+  hole: StaffingHole;
+  audit: AuditEvent[];
+}
+
 export interface AuditEvent {
   id: string;
   at: string;
@@ -56,4 +73,3 @@ export interface AssignmentResult {
   code: 'ASSIGNED' | 'HOLE_ALREADY_FILLED' | 'STALE_VERSION' | 'CANDIDATE_INELIGIBLE';
   hole: StaffingHole;
 }
-
