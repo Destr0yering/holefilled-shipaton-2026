@@ -29,6 +29,12 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "holefilled"
+    "scheme": "holefilled",
+    "extra": {
+      "eas": {
+        "projectId": "e9941792-a737-4fa2-b4ac-a77feec7e029"
+      }
+    },
+    "owner": "destr0yering"
   }
 }
