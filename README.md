@@ -19,6 +19,17 @@ npm run typecheck
 npm run export:web
 ```
 
+## Installable Android preview
+
+- Expo build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/964b9681-1483-40dd-92ed-30d6cbc0d829
+- Build type: internal-distribution APK
+- Application ID: `com.destr0yering.holefilled`
+- Version: `1.0.0` (`versionCode` 1)
+- Local USB artifact: `D:\holefilled-build-cache\artifacts\holefilled-preview-v1.apk`
+- SHA-256: `233DC106BABAA3EA1ED1D1142C3EB17CB3364F0DD8D0C8CE9B0B43E2C4FCE8E5`
+
+This preview proves that the native Android application compiles and can be installed for device testing. It is not a Google Play release and does not satisfy the published-store requirement by itself.
+
 ## Golden demo
 
 1. Open the dashboard and start the critical warehouse outreach.

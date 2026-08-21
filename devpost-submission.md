@@ -73,7 +73,7 @@ In the application:
 5. Confirm the first eligible acceptance and inspect the “HoleFilled” result.
 6. Open the Pro experience to inspect the RevenueCat purchase/restore boundary.
 
-Verified on August 21, 2026: Expo Doctor 21/21 checks, four domain tests passed, TypeScript passed, and the production web export completed.
+Verified on August 21, 2026: Expo Doctor 21/21 checks, four domain tests passed, TypeScript passed, the production web export completed, and an installable Android preview APK was built successfully through EAS.
 
 ## Public Demo Link
 
@@ -81,7 +81,9 @@ Verified on August 21, 2026: Expo Doctor 21/21 checks, four domain tests passed,
 
 ## Public Repository Link
 
-**TODO:** Add the public GitHub repository URL after a secret scan and initial commit.
+https://github.com/Destr0yering/holefilled-shipaton-2026
+
+The repository was scanned for likely committed secrets before publication. Development credentials remain outside the repository.
 
 ## Demo Video
 
