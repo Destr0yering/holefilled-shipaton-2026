@@ -30,6 +30,12 @@ npm run export:web
 
 This preview proves that the native Android application compiles and can be installed for device testing. It is not a Google Play release and does not satisfy the published-store requirement by itself.
 
+RevenueCat sandbox build:
+
+- Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/0c16a373-be53-47ab-b23f-798e778c3be4
+- Local USB artifact: `D:\holefilled-build-cache\artifacts\holefilled-revenuecat-sandbox-v1.apk`
+- SHA-256: `56E742CD1D642BD8D44087071AC9278238049EE71ADB2FF903380E5F9D82109A`
+
 ## Public project pages
 
 - Project: https://destr0yering.github.io/holefilled-shipaton-2026/

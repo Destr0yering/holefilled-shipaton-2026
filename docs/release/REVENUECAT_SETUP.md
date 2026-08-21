@@ -6,6 +6,7 @@ This is the exact dashboard contract expected by the current application.
 
 - Project name: `HoleFilled`
 - RevenueCat project ID: `6858b0db`
+- RevenueCat Play Store app REST identifier: `app12d449d0ed`
 - Android application ID: `com.destr0yering.holefilled`
 - iOS bundle ID: `com.destr0yering.holefilled`
 
@@ -25,8 +26,16 @@ This is the exact dashboard contract expected by the current application.
 - Entitlement `holefilled_pro` is active and attached to three Test Store products.
 - Offering `default` contains monthly, yearly, and lifetime packages.
 - The Test Store public SDK key is stored in the EAS `preview` environment only.
+- The Google Play public SDK key is stored in the EAS `production` environment only.
 - No Test Store or Google Play SDK key is committed to Git.
-- A real Google Play app configuration and product remain required for the production environment.
+- The Google Play app configuration exists for `com.destr0yering.holefilled`.
+- Google Play service-account credentials and live Play subscription products remain required.
+
+## Verified sandbox Android build
+
+- Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/0c16a373-be53-47ab-b23f-798e778c3be4
+- USB artifact: `D:\holefilled-build-cache\artifacts\holefilled-revenuecat-sandbox-v1.apk`
+- SHA-256: `56E742CD1D642BD8D44087071AC9278238049EE71ADB2FF903380E5F9D82109A`
 
 The application requests the first package in the current offering and validates the `holefilled_pro` entitlement. Do not change these identifiers without updating and retesting the native adapter.
 
