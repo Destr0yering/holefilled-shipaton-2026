@@ -24,7 +24,9 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "export:web": "expo export --platform web"
+    "export:web": "expo export --platform web",
+    "release:check": "node scripts/release-check.mjs",
+    "release:check:production": "node scripts/release-check.mjs --production"
   },
   "private": true
 }
