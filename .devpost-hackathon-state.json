@@ -1,0 +1,47 @@
+{
+  "plugin": "devpost-hackathon",
+  "version": 2,
+  "hackathon": {
+    "slug": "revenuecat-shipaton-2026",
+    "name": "RevenueCat Shipaton 2026",
+    "url": "https://revenuecat-shipaton-2026.devpost.com",
+    "selected": true,
+    "source": "known"
+  },
+  "participant": {
+    "name": "Thomas Ohmstead",
+    "display_name": "Destr0yering"
+  },
+  "project": {
+    "name": "HoleFilled",
+    "summary": "HoleFilled fills unexpected workforce gaps and coordinates Got2Get2Work transportation when commuting is the obstacle.",
+    "ai_usage": "",
+    "codex_usage": ""
+  },
+  "current_stage": "prepare-submission",
+  "completed_stages": [
+    "start-hackathon",
+    "review",
+    "resources"
+  ],
+  "rules_acknowledged": true,
+  "learning": {
+    "status": "completed",
+    "current_step": "build",
+    "completed_steps": [
+      "onboard",
+      "scope",
+      "prd",
+      "spec",
+      "checklist",
+      "build"
+    ],
+    "plan_file": "docs/hackathon-build/scope.md",
+    "checklist_file": "docs/hackathon-build/checklist.md"
+  },
+  "submission": {
+    "draft_file": "devpost-submission.md",
+    "status": "drafting"
+  },
+  "next_command": "prepare-submission"
+}

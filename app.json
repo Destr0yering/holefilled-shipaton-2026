@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "HoleFilled",
+    "slug": "holefilled-shipaton-2026",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon-holefilled-1024.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.destr0yering.holefilled",
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.destr0yering.holefilled",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": []
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "scheme": "holefilled"
+  }
+}
