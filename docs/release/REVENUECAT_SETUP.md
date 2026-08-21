@@ -39,6 +39,18 @@ This is the exact dashboard contract expected by the current application.
 
 The application requests the first package in the current offering and validates the `holefilled_pro` entitlement. Do not change these identifiers without updating and retesting the native adapter.
 
+## Verified production Android bundle
+
+- Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/0770b31a-3ee5-450a-a3d3-d0e8df7c8043
+- Profile/distribution: `production` / Google Play store
+- Version: `1.0.0` (`versionCode` 2)
+- Source commit: `75fd724363dda2c5be88bd227b0a34d9df2a8632`
+- USB artifact: `D:\holefilled-build-cache\artifacts\holefilled-production-v2.aab`
+- Size: `50,117,584` bytes
+- SHA-256: `6904486419981C33BB6800C2F82F2665F886514A18437A6EC6927B574C1F2DAE`
+
+This is a store-ready artifact, not evidence of publication or a completed live billing test. Upload it to Play Console, create and activate the live subscription product, import/link that product in RevenueCat, and test through a Play-distributed testing track.
+
 ## SDK keys
 
 Set only RevenueCat public SDK keys in EAS:

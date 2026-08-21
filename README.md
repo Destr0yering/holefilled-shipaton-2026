@@ -36,6 +36,17 @@ RevenueCat sandbox build:
 - Local USB artifact: `D:\holefilled-build-cache\artifacts\holefilled-revenuecat-sandbox-v1.apk`
 - SHA-256: `56E742CD1D642BD8D44087071AC9278238049EE71ADB2FF903380E5F9D82109A`
 
+Google Play production bundle:
+
+- Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/0770b31a-3ee5-450a-a3d3-d0e8df7c8043
+- Build type: store-distribution Android App Bundle (`.aab`)
+- Version: `1.0.0` (`versionCode` 2)
+- Source commit: `75fd724363dda2c5be88bd227b0a34d9df2a8632`
+- Local USB artifact: `D:\holefilled-build-cache\artifacts\holefilled-production-v2.aab`
+- SHA-256: `6904486419981C33BB6800C2F82F2665F886514A18437A6EC6927B574C1F2DAE`
+
+The bundle is ready for Google Play upload. It is not considered published, and no live subscription claim is made, until Play Console review/distribution and a physical-device purchase test are complete.
+
 ## Public project pages
 
 - Project: https://destr0yering.github.io/holefilled-shipaton-2026/
@@ -70,7 +81,7 @@ npx eas-cli build --platform android --profile preview
 npx eas-cli build --platform android --profile production
 ```
 
-Do not start a production build until the Android RevenueCat public key, Google Play subscription product, privacy policy, support contact, store listing, and data-safety answers are configured.
+The production bundle has been generated with the RevenueCat Google Android public SDK key stored in EAS. Before public release, finish the live Google Play subscription product, private support contact, store listing, data-safety declaration, and physical-device purchase test.
 
 ## Truthful integration status
 
