@@ -77,7 +77,11 @@ Verified on August 21, 2026: Expo Doctor 21/21 checks, four domain tests passed,
 
 ## Public Demo Link
 
-**TODO:** Add the deployed demonstration URL. A web export exists locally, but the official entry requires a published iOS, Android, or Galaxy Store application.
+Project and policy site: https://destr0yering.github.io/holefilled-shipaton-2026/
+
+Installable Android preview: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/964b9681-1483-40dd-92ed-30d6cbc0d829
+
+The Android preview is not a published store release. **TODO:** Add the qualifying Google Play, App Store, or Galaxy Store URL.
 
 ## Public Repository Link
 

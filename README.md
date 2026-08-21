@@ -30,6 +30,14 @@ npm run export:web
 
 This preview proves that the native Android application compiles and can be installed for device testing. It is not a Google Play release and does not satisfy the published-store requirement by itself.
 
+## Public project pages
+
+- Project: https://destr0yering.github.io/holefilled-shipaton-2026/
+- Privacy policy: https://destr0yering.github.io/holefilled-shipaton-2026/privacy.html
+- Support: https://destr0yering.github.io/holefilled-shipaton-2026/support.html
+
+These HTTPS pages are suitable for preview and store-listing preparation. Add a private support email and production legal entity details before public launch.
+
 ## Golden demo
 
 1. Open the dashboard and start the critical warehouse outreach.
