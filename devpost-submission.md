@@ -139,7 +139,7 @@ Recommended award positioning:
 - **27380 — First Version Date Confirmation:** Confirm only after the first store release occurs between August 1 and September 30, 2026.
 - **27382 — App type (required):** Planned selections: iOS and Android; confirm against actual published builds.
 - **27383 / 27384 / 28117 — Store URLs:** Add the actual published store URL(s).
-- **28118 — RevenueCat project ID (required):** Add from RevenueCat Project Settings.
+- **28118 — RevenueCat project ID (required):** `6858b0db`
 - **28135 — Promo code:** Add a working code, or configure a free trial instead.
 - **27388 — HAMM Award:** Use the monetization explanation below only after the live purchase path exists.
 - **27389 — Peace Prize:** Use the social-good explanation from “Why This Matters,” updated with any real pilot evidence.

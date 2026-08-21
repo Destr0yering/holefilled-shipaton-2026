@@ -5,7 +5,7 @@ This is the exact dashboard contract expected by the current application.
 ## Project
 
 - Project name: `HoleFilled`
-- Devpost field required after creation: RevenueCat project ID
+- RevenueCat project ID: `6858b0db`
 - Android application ID: `com.destr0yering.holefilled`
 - iOS bundle ID: `com.destr0yering.holefilled`
 
@@ -18,6 +18,15 @@ This is the exact dashboard contract expected by the current application.
 - Display name: `HoleFilled Pro`
 - Initial price hypothesis: USD $49.00/month
 - Judge access: configure a free trial or a working promo code
+
+## Configured sandbox state
+
+- Test Store app configuration is active.
+- Entitlement `holefilled_pro` is active and attached to three Test Store products.
+- Offering `default` contains monthly, yearly, and lifetime packages.
+- The Test Store public SDK key is stored in the EAS `preview` environment only.
+- No Test Store or Google Play SDK key is committed to Git.
+- A real Google Play app configuration and product remain required for the production environment.
 
 The application requests the first package in the current offering and validates the `holefilled_pro` entitlement. Do not change these identifiers without updating and retesting the native adapter.
 
