@@ -99,7 +99,7 @@ The production bundle has been generated with the RevenueCat Google Android publ
 
 ## Truthful integration status
 
-- Voice/SMS conversations are simulated behind a provider interface.
+- Voice/SMS conversations remain simulated in the public demo. A tested concurrent coordinator plus server-only Twilio/OpenRouter Edge Function foundation now exists, but carrier activation and real-worker outreach are not configured or claimed.
 - The HR event uses a canonical demo external ID and is not a certified UKG integration.
 - Got2Get2Work, Uber, and Lyft are not connected or claimed as partners.
 - Supabase, Sentry, PostHog, OneSignal, and Stripe are production boundaries requiring project credentials and configuration.

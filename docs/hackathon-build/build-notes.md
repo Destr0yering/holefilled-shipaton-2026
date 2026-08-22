@@ -45,3 +45,13 @@
 - Kept Got2Get2School outside scope; the crossing-guard scenario is employer workforce coverage, with school-board authorization and background-check responsibility.
 - Built the multi-sector source as an internal Android APK with the RevenueCat preview environment, archived it to USB, recorded its SHA-256, and verified its APK v2 signature and package structure.
 - No Android device or emulator was attached, so native install and physical interaction testing remain explicit follow-up checks.
+
+## 2026-08-21 — Concurrent SMS and voice foundation
+
+- Implemented a bounded outreach coordinator that starts independent SMS and voice dispatches in the same event-loop turn.
+- Added isolation tests proving one provider failure does not cancel the remaining negotiations and invalid waves contact nobody.
+- Added Supabase communication-wave/session schema with tenant RLS, provider idempotency, encrypted-destination contract, and validated-classification storage.
+- Added server-only Twilio messaging and outbound-call adapters, voice speech/DTMF gathering, lifecycle callbacks, and HMAC webhook validation.
+- Added OpenRouter `stealth/ox-alpha` classification with output allowlisting, length limits, deterministic fallback, and no retention of model reasoning.
+- Added deterministic acceptance, decline, transportation, incentive, and opt-out replies so AI cannot promise a shift or unauthorized benefit.
+- Live carrier delivery remains disabled until Twilio credentials, verified senders, durable inbound routing, compliance review, and controlled-number testing are complete.
