@@ -55,3 +55,12 @@
 - Added OpenRouter `stealth/ox-alpha` classification with output allowlisting, length limits, deterministic fallback, and no retention of model reasoning.
 - Added deterministic acceptance, decline, transportation, incentive, and opt-out replies so AI cannot promise a shift or unauthorized benefit.
 - Live carrier delivery remains disabled until Twilio credentials, verified senders, durable inbound routing, compliance review, and controlled-number testing are complete.
+
+## 2026-08-21 — Command-center interface polish
+
+- Reworked the dashboard into a denser workforce-operations command center with a stronger HoleFilled brand mark and live system-readiness signal.
+- Upgraded the five-sector selector with visual sector marks, clearer selected state, and portfolio context.
+- Added operational hero signals for qualified fillers, communication channels, and the atomic-winner guarantee.
+- Added a coverage-risk meter, richer incident summary, qualification/policy hierarchy, and clearer near-simultaneous outreach call to action.
+- Polished candidate, timeline, paywall, and completion surfaces while preserving accessible roles, labels, status text, touch targets, and color-independent wording.
+- Visually verified the dashboard and live incident in the browser and verified the RevenueCat paywall through its accessible DOM.
