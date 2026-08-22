@@ -36,6 +36,18 @@ RevenueCat sandbox build:
 - Local USB artifact: `D:\holefilled-build-cache\artifacts\holefilled-revenuecat-sandbox-v1.apk`
 - SHA-256: `56E742CD1D642BD8D44087071AC9278238049EE71ADB2FF903380E5F9D82109A`
 
+Multi-sector RevenueCat test build:
+
+- Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/5362a700-eb41-4705-aed2-675b9c5ba407
+- Source commit: `dcb44dfa4b55941cd49e00b38d51c0233ef00e92`
+- Scenarios: distribution, hospitality, food service, healthcare, and public sector
+- Local USB artifact: `D:\holefilled-build-cache\artifacts\holefilled-multisector-test-v2.apk`
+- Size: `72,209,386` bytes
+- SHA-256: `94FA3F0BF275A85AB5B447D21454AD30F4158713030DAA6BE8D5AD22DBD00406`
+- Native package validation: Android manifest and DEX present; APK Signature Scheme v2 verified with one signer
+
+This is the current direct-install Android test artifact. No Android device or running emulator was attached during packaging, so installation and touch-flow testing remain a tester/device step.
+
 Google Play production bundle:
 
 - Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/0770b31a-3ee5-450a-a3d3-d0e8df7c8043

@@ -43,3 +43,5 @@
 - Added a public-evidence brief based on UKG customer stories across healthcare, manufacturing/distribution, hospitality/food service, and public-sector education.
 - Preserved strict claim boundaries: the demo is not certified by UKG, named UKG customers are not represented in product fixtures, and all organizations and outcomes are fictional.
 - Kept Got2Get2School outside scope; the crossing-guard scenario is employer workforce coverage, with school-board authorization and background-check responsibility.
+- Built the multi-sector source as an internal Android APK with the RevenueCat preview environment, archived it to USB, recorded its SHA-256, and verified its APK v2 signature and package structure.
+- No Android device or emulator was attached, so native install and physical interaction testing remain explicit follow-up checks.

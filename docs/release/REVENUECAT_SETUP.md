@@ -39,6 +39,18 @@ This is the exact dashboard contract expected by the current application.
 
 The application requests the first package in the current offering and validates the `holefilled_pro` entitlement. Do not change these identifiers without updating and retesting the native adapter.
 
+## Verified multi-sector Android test build
+
+- Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/5362a700-eb41-4705-aed2-675b9c5ba407
+- Profile/distribution: `preview` / internal APK
+- Source commit: `dcb44dfa4b55941cd49e00b38d51c0233ef00e92`
+- USB artifact: `D:\holefilled-build-cache\artifacts\holefilled-multisector-test-v2.apk`
+- Size: `72,209,386` bytes
+- SHA-256: `94FA3F0BF275A85AB5B447D21454AD30F4158713030DAA6BE8D5AD22DBD00406`
+- Package integrity: Android manifest and DEX present; APK Signature Scheme v2 verified with one RSA signer
+
+The build contains all five fictional sector demos and loads the RevenueCat Test Store SDK key from the EAS preview environment. Complete installation, navigation, accessibility, and Test Store purchase/restore checks on an Android device before promoting this source revision to a new production AAB.
+
 ## Verified production Android bundle
 
 - Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/0770b31a-3ee5-450a-a3d3-d0e8df7c8043
