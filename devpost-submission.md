@@ -12,7 +12,7 @@ A single last-minute absence can disrupt a warehouse line, hotel desk, restauran
 
 ## Solution
 
-HoleFilled is an AI-assisted shift-recovery layer designed to connect to an employer's existing HR or scheduling system. When a schedule change creates an open shift, HoleFilled ranks qualified people from that employer's internal worker pool, starts bounded SMS outreach and optional voice outreach, learns why candidates decline, and applies employer-approved remedies. If transportation is the blocker, it can propose Got2Get2Work coordination or a rideshare credit. Incentives remain constrained by policy, with manager approval required above configured limits. The first eligible acceptance wins atomically and competing outreach is closed.
+HoleFilled is an AI-assisted shift-recovery layer designed to connect to an employer's existing HR or scheduling system. When a schedule change creates an open shift, HoleFilled ranks qualified people from that employer's internal worker pool, starts bounded SMS outreach and optional voice outreach, learns why candidates decline, and applies employer-approved remedies. If transportation is the blocker, it can propose Got2Get2Work coordination or a rideshare credit. Incentives remain constrained by policy, with manager approval required above configured limits. Multiple workers can confirm availability; HoleFilled recommends the option with the fewest restraints, the employer makes the final selection, and one assignment is committed atomically while competing outreach closes.
 
 The current hackathon build is a deterministic cross-platform proof of concept demonstrating this decision flow across five fictional employer scenarios: warehouse, hospitality, food service, healthcare, and public-sector education. It does not claim that production telephony or HR connectors are already live.
 
@@ -26,7 +26,7 @@ For the RevenueCat Peace Prize, the social-good case is practical rather than ab
 
 AI is used as a conversational and orchestration layer, not as the final authority for employment decisions. It can explain a shift, respond persuasively but professionally, classify a worker's stated barrier, and suggest an allowed next action. Deterministic application rules control qualification, contact consent, incentive ceilings, assignment eligibility, and the one-winner transaction. This separation is intentional: conversational flexibility where it helps people, hard policy boundaries where employment and money are involved.
 
-The proof of concept simulates these conversations so judges can inspect the complete flow safely. Production voice/SMS models and provider integrations remain future integration work.
+The proof of concept simulates these conversations so judges can inspect the complete flow safely. Server-side voice/SMS and AI-classification adapter rails exist, but live carrier delivery and employer HR connections remain disabled until provider credentials, consent review, and controlled testing are complete.
 
 ## How We Used Codex
 
@@ -35,12 +35,13 @@ Codex helped convert the founder's workforce-logistics concept into a focused Sh
 ## Key Features
 
 - Critical open-shift command center with role, location, deadline, and severity.
-- Ranked internal filler candidates based on fictional qualification and availability data.
-- Bounded concurrent SMS and employer-optional voice outreach simulation.
+- Eight ranked internal filler candidates per incident based on fictional qualification and availability data.
+- Bounded near-simultaneous SMS and employer-optional voice outreach with deterministic response timing.
+- Four to five confirmed fillers, transparent constraint scoring, a recommended fit, and manager override.
 - Decline-reason and transportation-barrier capture.
 - Employer-policy-controlled incentives and manager approval thresholds.
 - Got2Get2Work or rideshare-credit transportation paths.
-- Atomic first-eligible-acceptance-wins workflow with stale-version protection.
+- Atomic manager-selected assignment with stale-version protection and automatic closure of competing offers.
 - Professional “HoleFilled” confirmation with filler, assistance, transportation, and ETA.
 - RevenueCat entitlement boundary for Pro access, purchase, and restore flows.
 - Responsive, keyboard-aware, high-contrast interface designed toward WCAG 2.2 AA.
@@ -66,20 +67,20 @@ npm run web
 
 In the application:
 
-1. Choose a fictional sector scenario, or use the warehouse incident as the primary judging path, and review its three qualified fillers.
-2. Start outreach and observe concurrent candidate states.
-3. Continue until Maya's transportation barrier is identified.
-4. Apply the policy-approved transportation/incentive response.
-5. Confirm the first eligible acceptance and inspect the “HoleFilled” result.
+1. Choose a fictional sector scenario, or use the warehouse incident as the primary judging path, and review its eight qualified fillers.
+2. Start outreach and observe simulated responses arriving across voice and SMS.
+3. Compare four to five confirmed fillers by constraints, distance, and qualification match.
+4. Keep the recommended fit or select another confirmed worker as the employer.
+5. Confirm the selected filler and inspect the “HoleFilled” result and closed competing offers.
 6. Open the Pro experience to inspect the RevenueCat purchase/restore boundary.
 
-Verified on August 21, 2026: Expo Doctor 21/21 checks, four domain tests passed, TypeScript passed, the production web export completed, and an installable Android preview APK was built successfully through EAS.
+Verified on August 23, 2026: eight automated tests and TypeScript passed; the production web export and release gate completed; three mobile-width axe states reported zero serious or critical accessibility violations; the GitHub Actions application and Lighthouse jobs passed; and signed Android release and RevenueCat Test Store development APKs were produced through EAS.
 
 ## Public Demo Link
 
 Project and policy site: https://destr0yering.github.io/holefilled-shipaton-2026/
 
-Installable Android preview: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/964b9681-1483-40dd-92ed-30d6cbc0d829
+Current RevenueCat Test Store development build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/05a58a82-26a9-4f92-a42d-adc9cfdb72a1
 
 The Android preview is not a published store release. **TODO:** Add the qualifying Google Play, App Store, or Galaxy Store URL.
 
@@ -96,22 +97,31 @@ The repository was scanned for likely committed secrets before publication. Deve
 Proposed sequence:
 
 - 0:00–0:12 — A critical warehouse shift becomes open.
-- 0:12–0:30 — HoleFilled ranks three qualified internal coworkers and starts bounded outreach.
-- 0:30–0:52 — Two people decline; Maya identifies transportation as her barrier.
-- 0:52–1:15 — HoleFilled offers Got2Get2Work pickup and a policy-approved ride credit.
-- 1:15–1:32 — Maya accepts and the atomic assignment closes other outreach.
-- 1:32–1:48 — The manager sees “HoleFilled,” the ETA, assistance, and audit timeline.
+- 0:12–0:30 — HoleFilled ranks eight qualified internal coworkers and starts one bounded outreach wave.
+- 0:30–0:52 — Simulated voice/SMS responses produce multiple confirmations, declines, no-responses, and constraints.
+- 0:52–1:13 — The manager compares confirmed fillers and sees Maya recommended by the fewest restraints.
+- 1:13–1:30 — The employer selects Maya; the assignment commits and competing outreach closes.
+- 1:30–1:48 — The manager sees “HoleFilled,” the ETA, assistance, and audit timeline.
 - 1:48–2:00 — Show the RevenueCat-powered Pro boundary and close with: “A worker called out. HoleFilled got the shift covered.”
 
 ## Screenshot Shot List
 
-1. Required 1179×2556 no-frame capture of the critical incident and ranked fillers.
-2. Concurrent outreach with the transportation barrier visible.
-3. “HoleFilled” confirmation with filler, ETA, and approved assistance.
-4. RevenueCat Pro paywall and restore action.
-5. Optional audit timeline demonstrating accountable decisions.
+1. Required 1179×2556 no-frame capture of the command center with eight outreach targets.
+2. Manager shortlist showing multiple confirmed fillers and the recommended fit.
+3. Concurrent conversations showing confirmation, decline, no-response, and barrier states.
+4. “HoleFilled” confirmation with selected filler, ETA, and approved assistance.
+5. RevenueCat Pro paywall and restore action.
 
 Also create the required uncropped 1024×1024 application icon.
+
+Exact-size no-frame draft captures generated from the verified web build:
+
+- `docs/submission-assets/01-command-center-1179x2556.png`
+- `docs/submission-assets/02-manager-shortlist-1179x2556.png`
+- `docs/submission-assets/03-holefilled-success-1179x2556.png`
+- `docs/submission-assets/04-revenuecat-paywall-1179x2556.png`
+
+The manager-shortlist and success captures were visually inspected after generation. Capture at least one equivalent native Android screen before final entry delivery if practical.
 
 ## Submission Readiness Notes
 
@@ -127,24 +137,36 @@ Recommended award positioning:
 
 - The current conversations, candidates, and provider outcomes are simulated with fictional data.
 - No live HR, SMS, voice, Uber, Lyft, or Got2Get2Work service connector is active.
-- The RevenueCat SDK boundary exists, but the real RevenueCat project, store products, entitlement, and free trial or promo path are not configured.
+- RevenueCat project `6858b0db`, Test Store products, the `default` offering, and `holefilled_pro` entitlement are configured; a live Google Play product and judge free-trial or promo path remain required.
 - No public App Store, Google Play, or Galaxy Store release URL exists yet.
 - Production consent, labor-policy, privacy, security, accessibility, and legal review remain required.
-- The web dashboard is visually verified; required native-device capture and store testing remain outstanding.
+- The Android development client loaded successfully through the Expo tunnel; required native purchase completion, exact-size screenshot capture, and store-distributed testing remain outstanding.
 
 ## TODO Official Form Fields
 
 - **27378 — Includes App Icon (required):** Attach an uncropped 1024×1024 icon, then confirm.
 - **27379 — Includes screenshot (required):** Attach a 1179×2556 screenshot without a device frame, then confirm.
 - **27380 — First Version Date Confirmation:** Confirm only after the first store release occurs between August 1 and September 30, 2026.
-- **27382 — App type (required):** Planned selections: iOS and Android; confirm against actual published builds.
-- **27383 / 27384 / 28117 — Store URLs:** Add the actual published store URL(s).
+- **27382 — App type (required):** Select `Android` for the initial published release; add another platform only if it is actually published before entry update.
+- **27384 — Google Play URL:** Add the actual public production listing. Leave Apple and Galaxy fields blank unless those releases exist.
 - **28118 — RevenueCat project ID (required):** `6858b0db`
 - **28135 — Promo code:** Add a working code, or configure a free trial instead.
 - **27388 — HAMM Award:** Use the monetization explanation below only after the live purchase path exists.
 - **27389 — Peace Prize:** Use the social-good explanation from “Why This Matters,” updated with any real pilot evidence.
 - **27391 — Design Award:** Describe the manager command center, professional language, barrier-resolution interaction, accessible hierarchy, and restrained success state after native polish.
 - **27392 — Additional notes:** State clearly which integrations are demonstrated versus live.
+
+### Live Devpost draft correction required
+
+The existing Devpost project record is project `1372490`, currently titled `Got2Get2Work`, with an empty tagline and description. Before final entry delivery it must be renamed to `HoleFilled` and populated from this packet. HoleFilled is the submission product; Got2Get2Work is a separate transportation platform represented only through an adapter boundary.
+
+### Official deadline and deliverables checked August 23, 2026
+
+- Submission closes September 30, 2026 at 11:45 PM Pacific (`2026-10-01T06:45:00Z`).
+- A public YouTube or Vimeo demo of no more than two minutes is required.
+- A public App Store, Google Play, or Samsung Galaxy Store URL is required for the standard track.
+- A 1024×1024 app icon and at least one 1179×2556 no-frame screenshot are required.
+- Judges need either a free trial or a promo code to unlock premium functionality.
 
 ### Draft HAMM response
 

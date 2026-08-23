@@ -35,7 +35,8 @@
     "release:check:production": "node scripts/release-check.mjs --production",
     "serve:audit": "serve -s dist -l 4173",
     "audit:web": "node scripts/web-audit.mjs",
-    "audit:lighthouse": "lhci autorun"
+    "audit:lighthouse": "lhci autorun",
+    "capture:submission": "node scripts/capture-submission.mjs"
   },
   "private": true
 }
