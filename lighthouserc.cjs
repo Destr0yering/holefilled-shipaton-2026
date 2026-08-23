@@ -1,0 +1,26 @@
+module.exports = {
+  ci: {
+    collect: {
+      staticDistDir: './dist',
+      url: ['/'],
+      numberOfRuns: 1,
+      settings: {
+        preset: 'desktop',
+        onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
+      },
+    },
+    assert: {
+      assertions: {
+        'categories:performance': ['warn', { minScore: 0.7 }],
+        'categories:accessibility': ['error', { minScore: 0.9 }],
+        'categories:best-practices': ['warn', { minScore: 0.9 }],
+        'categories:seo': ['warn', { minScore: 0.8 }],
+      },
+    },
+    upload: {
+      target: 'filesystem',
+      outputDir: '.artifacts/lighthouse',
+    },
+  },
+};
+

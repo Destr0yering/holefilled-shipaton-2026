@@ -64,3 +64,13 @@
 - Added a coverage-risk meter, richer incident summary, qualification/policy hierarchy, and clearer near-simultaneous outreach call to action.
 - Polished candidate, timeline, paywall, and completion surfaces while preserving accessible roles, labels, status text, touch targets, and color-independent wording.
 - Visually verified the dashboard and live incident in the browser and verified the RevenueCat paywall through its accessible DOM.
+
+## 2026-08-23 — Free automated quality gate
+
+- Added a GitHub Actions workflow for every push and pull request, manual dispatches, and a weekly scheduled regression run.
+- Automated unit tests, TypeScript validation, production web export, release-readiness checks, and pull-request dependency review.
+- Added reduced-motion mobile accessibility scans for the dashboard, a live healthcare negotiation, and the RevenueCat paywall.
+- Fixed a measured amber status-badge contrast edge case and verified zero serious or critical axe violations across all three states.
+- Added Lighthouse performance, accessibility, best-practices, and SEO budgets with downloadable reports retained for 14 days.
+- Added a non-blocking npm security-audit artifact so upstream Expo and Lighthouse advisories remain visible without forcing incompatible dependency downgrades.
+- Kept carrier calls, production purchases, Play publishing, and paid cloud-device testing outside automation until their provider credentials and controlled test environments are available.

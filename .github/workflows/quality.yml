@@ -1,0 +1,87 @@
+name: HoleFilled quality gate
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 12 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  application:
+    name: Application checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck
+      - run: npm run export:web
+      - run: npm run release:check
+      - name: Capture dependency audit without masking upstream Expo advisories
+        shell: bash
+        run: |
+          mkdir -p .artifacts
+          npm audit --json > .artifacts/npm-audit.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: application-quality-${{ github.run_id }}
+          path: |
+            .artifacts/npm-audit.json
+            dist/
+          retention-days: 14
+
+  web-audit:
+    name: Accessibility and Lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run export:web
+      - name: Start static preview
+        shell: bash
+        run: |
+          npm run serve:audit > /tmp/holefilled-serve.log 2>&1 &
+          for attempt in {1..30}; do
+            curl --fail --silent http://127.0.0.1:4173/ > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/holefilled-serve.log
+          exit 1
+      - run: npm run audit:web
+      - run: npm run audit:lighthouse
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: web-quality-${{ github.run_id }}
+          path: .artifacts/
+          retention-days: 14
+
+  dependency-review:
+    name: Pull-request dependency review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+

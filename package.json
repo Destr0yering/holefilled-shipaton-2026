@@ -13,7 +13,11 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@lhci/cli": "^0.15.1",
     "@types/react": "~19.2.2",
+    "playwright": "^1.62.1",
+    "serve": "^14.2.6",
     "typescript": "~6.0.3",
     "vitest": "^4.0.18"
   },
@@ -26,7 +30,10 @@
     "test": "vitest run",
     "export:web": "expo export --platform web",
     "release:check": "node scripts/release-check.mjs",
-    "release:check:production": "node scripts/release-check.mjs --production"
+    "release:check:production": "node scripts/release-check.mjs --production",
+    "serve:audit": "serve -s dist -l 4173",
+    "audit:web": "node scripts/web-audit.mjs",
+    "audit:lighthouse": "lhci autorun"
   },
   "private": true
 }

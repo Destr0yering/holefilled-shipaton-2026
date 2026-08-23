@@ -9,7 +9,7 @@ import { revenueCat } from './src/services/revenuecatAdapter';
 
 type Screen = 'dashboard' | 'incident' | 'paywall';
 type PurchaseState = 'loading' | 'ready' | 'purchasing' | 'restoring' | 'active' | 'unconfigured' | 'error';
-const c = { ink:'#10231F', muted:'#52645F', paper:'#F5F8F6', card:'#FFF', green:'#045844', mint:'#D9F3E9', amber:'#A65D00', amberBg:'#FFF1D6', red:'#A72E2E', redBg:'#FCE4E4', blue:'#185DA8', blueBg:'#E3EFFC', border:'#D7E1DC' };
+const c = { ink:'#10231F', muted:'#52645F', paper:'#F5F8F6', card:'#FFF', green:'#045844', mint:'#D9F3E9', amber:'#8A4B00', amberBg:'#FFF1D6', red:'#A72E2E', redBg:'#FCE4E4', blue:'#185DA8', blueBg:'#E3EFFC', border:'#D7E1DC' };
 
 function Button({ label, onPress, secondary=false, disabled=false }: { label:string; onPress:()=>void; secondary?:boolean; disabled?:boolean }) {
   return <Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{disabled}} disabled={disabled} onPress={onPress} style={({pressed})=>[s.button,secondary&&s.button2,disabled&&s.disabled,pressed&&!disabled&&s.pressed]}><Text style={[s.buttonText,secondary&&s.buttonText2]}>{label}</Text></Pressable>;
