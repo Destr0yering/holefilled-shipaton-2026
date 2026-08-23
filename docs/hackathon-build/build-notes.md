@@ -60,7 +60,7 @@
 
 - Reworked the dashboard into a denser workforce-operations command center with a stronger HoleFilled brand mark and live system-readiness signal.
 - Upgraded the five-sector selector with visual sector marks, clearer selected state, and portfolio context.
-- Added operational hero signals for qualified fillers, communication channels, and the atomic-winner guarantee.
+- Added operational hero signals for qualified fillers, communication channels, and one “perfect fit” outcome; kept atomic-assignment terminology confined to technical documentation.
 - Added a coverage-risk meter, richer incident summary, qualification/policy hierarchy, and clearer near-simultaneous outreach call to action.
 - Polished candidate, timeline, paywall, and completion surfaces while preserving accessible roles, labels, status text, touch targets, and color-independent wording.
 - Visually verified the dashboard and live incident in the browser and verified the RevenueCat paywall through its accessible DOM.
