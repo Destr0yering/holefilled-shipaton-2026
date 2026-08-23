@@ -58,7 +58,19 @@ Polished multi-sector test build (current):
 - SHA-256: `5CD7DC33A0860F576F0BF805B966EE156FB5E66239C78C5F2F14BC9A9ECFF033`
 - Native verification: package `com.destr0yering.holefilled`, minimum SDK 24, target SDK 36, and APK Signature Scheme v2 verified with one RSA signer
 
-This build includes the polished command-center interface, “perfect fit” language, five fictional sector scenarios, RevenueCat Test Store configuration, and the accessibility contrast correction. The USB `D:` drive was not mounted when it was archived locally.
+This build includes the polished command-center interface, “perfect fit” language, five fictional sector scenarios, and the accessibility contrast correction. It is a release-mode APK and must not be used with a RevenueCat Test Store key; RevenueCat correctly blocks that combination.
+
+RevenueCat Test Store development build (current purchase-test APK):
+
+- Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/05a58a82-26a9-4f92-a42d-adc9cfdb72a1
+- Source commit: `9a3b756e32f480ec3956e79d7cc1e9a31487e33f`
+- Profile: `testStore` (debuggable Expo development client using the EAS preview environment)
+- Local artifact: `C:\Users\thoma\OneDrive\Documents\HoleFilled Builds\holefilled-revenuecat-teststore-debug-v4.apk`
+- Size: `170,185,747` bytes
+- SHA-256: `04B9F59533BCA03F07B9910F6FEDB642780BF248EFE6B758685E818DEFB738B7`
+- Native verification: debuggable package `com.destr0yering.holefilled`, minimum SDK 24, target SDK 36, and APK Signature Scheme v2 verified
+
+Run `npx expo start --dev-client --lan --port 8082` on the laptop, then open this development build on a phone connected to the same network. Production builds continue to use the Google Play API key and must never contain the Test Store key.
 
 Google Play production bundle:
 

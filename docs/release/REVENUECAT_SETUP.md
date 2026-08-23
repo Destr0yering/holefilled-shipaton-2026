@@ -62,7 +62,19 @@ The build contains all five fictional sector demos and loads the RevenueCat Test
 - SHA-256: `5CD7DC33A0860F576F0BF805B966EE156FB5E66239C78C5F2F14BC9A9ECFF033`
 - Package integrity: package `com.destr0yering.holefilled`, minimum SDK 24, target SDK 36, and APK Signature Scheme v2 verified with one RSA signer
 
-No Android device or running emulator was attached at verification time, so installation, five-scenario navigation, and Test Store purchase/restore remain device-test steps.
+This release-mode APK is valid for UI testing only when configured with the Google Play key. RevenueCat correctly blocks a Test Store key in a release binary, so it is superseded for purchase testing by the development build below.
+
+## RevenueCat Test Store development build
+
+- Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/05a58a82-26a9-4f92-a42d-adc9cfdb72a1
+- Profile: `testStore` / debuggable Expo development client
+- Source commit: `9a3b756e32f480ec3956e79d7cc1e9a31487e33f`
+- Local artifact: `C:\Users\thoma\OneDrive\Documents\HoleFilled Builds\holefilled-revenuecat-teststore-debug-v4.apk`
+- Size: `170,185,747` bytes
+- SHA-256: `04B9F59533BCA03F07B9910F6FEDB642780BF248EFE6B758685E818DEFB738B7`
+- Package integrity: debuggable package `com.destr0yering.holefilled`, minimum SDK 24, target SDK 36, and APK Signature Scheme v2 verified
+
+Start Metro with `npx expo start --dev-client --lan --port 8082` and connect the phone on the same LAN. This profile intentionally loads the Test Store key from the EAS preview environment; the production profile remains separate and uses the Google Play public SDK key.
 
 ## Verified production Android bundle
 
