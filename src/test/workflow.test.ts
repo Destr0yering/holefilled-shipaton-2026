@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { demoScenarios, initialHole } from '../data';
-import { acceptCandidate, incentiveDecision, qualifiedCandidates } from '../domain/workflow';
+import { acceptCandidate, confirmedCandidates, incentiveDecision, qualifiedCandidates } from '../domain/workflow';
 
 describe('HoleFilled workflow', () => {
   it('returns explainably eligible candidates in score order', () => {
@@ -29,9 +29,20 @@ describe('HoleFilled workflow', () => {
   it('keeps every sector demo deterministic, qualified, and fillable', () => {
     expect(demoScenarios.map((scenario) => scenario.id)).toEqual(['warehouse', 'server', 'cook', 'nurse', 'crossing-guard']);
     for (const scenario of demoScenarios) {
-      expect(qualifiedCandidates(scenario.hole)).toHaveLength(3);
+      expect(qualifiedCandidates(scenario.hole)).toHaveLength(8);
       const winner = scenario.hole.candidates.find((candidate) => candidate.id === scenario.winnerCandidateId);
       expect(winner?.barrier).toBe('transportation');
+      const responded = {
+        ...scenario.hole,
+        status: 'contacting' as const,
+        candidates: scenario.hole.candidates.map((candidate) => ({
+          ...candidate,
+          status: candidate.responseOutcome ?? 'confirmed' as const,
+        })),
+      };
+      expect(confirmedCandidates(responded).length).toBeGreaterThanOrEqual(4);
+      expect(confirmedCandidates(responded).length).toBeLessThanOrEqual(5);
+      expect(confirmedCandidates(responded)[0].id).toBe(scenario.winnerCandidateId);
       const result = acceptCandidate(scenario.hole, scenario.winnerCandidateId, 1, {
         incentiveCents: scenario.incentiveCents,
         transportation: scenario.transportation,

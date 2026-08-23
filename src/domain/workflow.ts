@@ -9,6 +9,15 @@ export const qualifiedCandidates = (hole: StaffingHole): Candidate[] =>
     )
     .sort((a, b) => b.score - a.score);
 
+export const confirmedCandidates = (hole: StaffingHole): Candidate[] =>
+  qualifiedCandidates(hole)
+    .filter((candidate) => candidate.status === 'confirmed')
+    .sort((a, b) =>
+      (a.restraintScore ?? 99) - (b.restraintScore ?? 99)
+      || a.distanceMiles - b.distanceMiles
+      || b.score - a.score,
+    );
+
 export const incentiveDecision = (
   hole: StaffingHole,
   requestedCents: number,
@@ -47,4 +56,3 @@ export const acceptCandidate = (
   };
   return { ok: true, code: 'ASSIGNED', hole };
 };
-

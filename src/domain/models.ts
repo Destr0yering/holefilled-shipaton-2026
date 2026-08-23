@@ -1,5 +1,5 @@
 export type HoleStatus = 'open' | 'contacting' | 'approval-needed' | 'filled' | 'unfilled';
-export type CandidateStatus = 'ready' | 'contacting' | 'declined' | 'negotiating' | 'accepted' | 'closed';
+export type CandidateStatus = 'ready' | 'contacting' | 'declined' | 'confirmed' | 'no-response' | 'accepted' | 'closed';
 export type Barrier = 'none' | 'transportation' | 'incentive' | 'timing' | 'personal';
 
 export interface Candidate {
@@ -15,6 +15,9 @@ export interface Candidate {
   channel: 'voice' | 'sms';
   barrier: Barrier;
   message: string;
+  responseDelaySeconds?: number;
+  restraintScore?: number;
+  responseOutcome?: 'confirmed' | 'declined' | 'no-response';
 }
 
 export interface IncentivePolicy {

@@ -1,5 +1,22 @@
 import { AuditEvent, DemoScenario, StaffingHole } from './domain/models';
 
+const expandCandidates = (scenarioId: string, qualifications: string[], source: StaffingHole['candidates']): StaffingHole['candidates'] => {
+  const originals = source.map((candidate, index) => ({
+    ...candidate,
+    responseDelaySeconds: [8, 14, 19][index],
+    restraintScore: candidate.barrier === 'transportation' ? 1 : candidate.barrier === 'incentive' ? 2 : candidate.barrier === 'timing' ? 3 : 9,
+    responseOutcome: candidate.barrier === 'personal' ? 'declined' as const : 'confirmed' as const,
+  }));
+  const additions: StaffingHole['candidates'] = [
+    {id:`${scenarioId}-alex`,name:'Alex J.',role:source[0].role,distanceMiles:9.6,qualifications,available:true,consented:true,score:82,status:'ready',channel:'sms',barrier:'timing',message:'I can cover, but I would arrive about fifteen minutes after start.',responseDelaySeconds:23,restraintScore:3,responseOutcome:'confirmed'},
+    {id:`${scenarioId}-morgan`,name:'Morgan C.',role:source[0].role,distanceMiles:6.8,qualifications,available:true,consented:true,score:80,status:'ready',channel:'voice',barrier:'incentive',message:'I am available if the standard emergency premium applies.',responseDelaySeconds:27,restraintScore:2,responseOutcome:'confirmed'},
+    {id:`${scenarioId}-jamie`,name:'Jamie B.',role:source[0].role,distanceMiles:13.2,qualifications,available:true,consented:true,score:77,status:'ready',channel:'sms',barrier:'personal',message:'Thank you for asking, but I cannot take this shift.',responseDelaySeconds:31,restraintScore:9,responseOutcome:'declined'},
+    {id:`${scenarioId}-taylor`,name:'Taylor S.',role:source[0].role,distanceMiles:5.1,qualifications,available:true,consented:true,score:75,status:'ready',channel:'voice',barrier:'none',message:'No response yet — voicemail left with an SMS follow-up.',responseDelaySeconds:36,restraintScore:9,responseOutcome:'no-response'},
+    {id:`${scenarioId}-casey`,name:'Casey W.',role:source[0].role,distanceMiles:15.4,qualifications,available:true,consented:true,score:72,status:'ready',channel:'sms',barrier:'none',message:'Message delivered; awaiting a response.',responseDelaySeconds:42,restraintScore:9,responseOutcome:'no-response'},
+  ];
+  return [...originals, ...additions];
+};
+
 export const initialHole: StaffingHole = {
   id: 'hole-demo-001',
   organizationId: 'org-atlantic-distribution',
@@ -53,11 +70,11 @@ const scenario = (
     status: 'open',
     qualifications: config.qualifications,
     policy: config.policy,
-    candidates: config.candidates,
+    candidates: expandCandidates(config.id, config.qualifications, config.candidates),
   },
   audit: [
     { id: `${config.id}-a1`, at: 'Now', actor: 'system', label: 'Hole detected', detail: `${config.externalId} created a critical coverage incident.` },
-    { id: `${config.id}-a2`, at: 'Now', actor: 'system', label: 'Eligibility evaluated', detail: `3 internal coworkers passed employer-defined role, qualification, availability, conflict, and consent rules.` },
+    { id: `${config.id}-a2`, at: 'Now', actor: 'system', label: 'Eligibility evaluated', detail: `8 internal coworkers passed employer-defined role, qualification, availability, conflict, and consent rules.` },
   ],
 });
 

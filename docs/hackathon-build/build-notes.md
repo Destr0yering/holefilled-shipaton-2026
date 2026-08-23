@@ -74,3 +74,11 @@
 - Added Lighthouse performance, accessibility, best-practices, and SEO budgets with downloadable reports retained for 14 days.
 - Added a non-blocking npm security-audit artifact so upstream Expo and Lighthouse advisories remain visible without forcing incompatible dependency downgrades.
 - Kept carrier calls, production purchases, Play publishing, and paid cloud-device testing outside automation until their provider credentials and controlled test environments are available.
+
+## 2026-08-23 — Expanded multi-filler decision demo
+
+- Expanded every sector scenario from three to eight qualified internal coworkers contacted in one near-simultaneous voice/SMS wave.
+- Added deterministic simulated response timing, confirmations, declines, no-responses, transportation barriers, timing limits, and incentive requests.
+- Added a manager shortlist with four to five confirmed fillers, a transparent fewest-restraints recommendation, and employer override before final assignment.
+- Preserved one final assignment, stale-version protection, policy limits, worker consent messaging, and automatic closure of competing offers.
+- Verified eight tests, TypeScript, production web export, release checks, and zero serious or critical axe violations across dashboard, live incident, and paywall states.
