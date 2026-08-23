@@ -51,6 +51,19 @@ The application requests the first package in the current offering and validates
 
 The build contains all five fictional sector demos and loads the RevenueCat Test Store SDK key from the EAS preview environment. Complete installation, navigation, accessibility, and Test Store purchase/restore checks on an Android device before promoting this source revision to a new production AAB.
 
+## Current polished Android test build
+
+- Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/2b3100a0-b82b-4d9e-9d40-c648dbfa533c
+- Profile/distribution: `preview` / internal APK
+- Source commit: `82132aa44f2bf1fa24032da9b83277df91b90aea`
+- Version: `1.0.0` (`versionCode` 2)
+- Local artifact: `C:\Users\thoma\OneDrive\Documents\HoleFilled Builds\holefilled-polished-multisector-test-v3.apk`
+- Size: `72,214,182` bytes
+- SHA-256: `5CD7DC33A0860F576F0BF805B966EE156FB5E66239C78C5F2F14BC9A9ECFF033`
+- Package integrity: package `com.destr0yering.holefilled`, minimum SDK 24, target SDK 36, and APK Signature Scheme v2 verified with one RSA signer
+
+No Android device or running emulator was attached at verification time, so installation, five-scenario navigation, and Test Store purchase/restore remain device-test steps.
+
 ## Verified production Android bundle
 
 - Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/0770b31a-3ee5-450a-a3d3-d0e8df7c8043

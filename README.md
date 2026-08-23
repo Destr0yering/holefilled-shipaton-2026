@@ -48,6 +48,18 @@ Multi-sector RevenueCat test build:
 
 This is the current direct-install Android test artifact. No Android device or running emulator was attached during packaging, so installation and touch-flow testing remain a tester/device step.
 
+Polished multi-sector test build (current):
+
+- Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/2b3100a0-b82b-4d9e-9d40-c648dbfa533c
+- Source commit: `82132aa44f2bf1fa24032da9b83277df91b90aea`
+- Version: `1.0.0` (`versionCode` 2)
+- Local artifact: `C:\Users\thoma\OneDrive\Documents\HoleFilled Builds\holefilled-polished-multisector-test-v3.apk`
+- Size: `72,214,182` bytes
+- SHA-256: `5CD7DC33A0860F576F0BF805B966EE156FB5E66239C78C5F2F14BC9A9ECFF033`
+- Native verification: package `com.destr0yering.holefilled`, minimum SDK 24, target SDK 36, and APK Signature Scheme v2 verified with one RSA signer
+
+This build includes the polished command-center interface, “perfect fit” language, five fictional sector scenarios, RevenueCat Test Store configuration, and the accessibility contrast correction. The USB `D:` drive was not mounted when it was archived locally.
+
 Google Play production bundle:
 
 - Build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/0770b31a-3ee5-450a-a3d3-d0e8df7c8043
