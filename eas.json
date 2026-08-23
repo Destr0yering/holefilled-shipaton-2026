@@ -8,6 +8,14 @@
       "developmentClient": true,
       "distribution": "internal"
     },
+    "testStore": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "environment": "preview",
+      "android": {
+        "buildType": "apk"
+      }
+    },
     "preview": {
       "distribution": "internal",
       "android": {
