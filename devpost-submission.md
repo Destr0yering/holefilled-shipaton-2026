@@ -156,9 +156,9 @@ Recommended award positioning:
 - **27391 — Design Award:** Describe the manager command center, professional language, barrier-resolution interaction, accessible hierarchy, and restrained success state after native polish.
 - **27392 — Additional notes:** State clearly which integrations are demonstrated versus live.
 
-### Live Devpost draft correction required
+### Live Devpost project record
 
-The existing Devpost project record is project `1372490`, currently titled `Got2Get2Work`, with an empty tagline and description. Before final entry delivery it must be renamed to `HoleFilled` and populated from this packet. HoleFilled is the submission product; Got2Get2Work is a separate transportation platform represented only through an adapter boundary.
+Devpost project `1372490` was renamed to `HoleFilled` on August 23, 2026 and populated with the reviewed tagline, product description, technology list, repository URL, and project-site URL. Public project page: https://devpost.com/software/got2get2work-rlf8hz. The legacy URL slug remains unchanged, but the displayed product name is correct. The project page is published; the RevenueCat Shipaton entry still has no `submitted_at` timestamp and remains incomplete until its required media, public store URL, premium-access path, and form answers are supplied.
 
 ### Official deadline and deliverables checked August 23, 2026
 
