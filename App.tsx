@@ -1,13 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useMemo, useState } from 'react';
-import { AccessibilityInfo, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { AccessibilityInfo, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
 import { demoScenarios } from './src/data';
 import { AuditEvent, DemoScenario, StaffingHole } from './src/domain/models';
 import { acceptCandidate, confirmedCandidates, qualifiedCandidates } from './src/domain/workflow';
 import { PaywallOffering } from './src/services/revenuecat';
 import { revenueCat } from './src/services/revenuecatAdapter';
+import { auth } from './src/services/auth';
 
-type Screen = 'dashboard' | 'incident' | 'paywall';
+type Screen = 'dashboard' | 'incident' | 'paywall' | 'auth';
 type PurchaseState = 'loading' | 'ready' | 'purchasing' | 'restoring' | 'active' | 'unconfigured' | 'error';
 const c = { ink:'#10231F', muted:'#52645F', paper:'#F5F8F6', card:'#FFF', green:'#045844', mint:'#D9F3E9', amber:'#8A4B00', amberBg:'#FFF1D6', red:'#A72E2E', redBg:'#FCE4E4', blue:'#185DA8', blueBg:'#E3EFFC', border:'#D7E1DC' };
 
@@ -32,6 +33,10 @@ export default function App() {
   const [offering,setOffering]=useState<PaywallOffering|null>(null);
   const [purchaseState,setPurchaseState]=useState<PurchaseState>('loading');
   const [purchaseMessage,setPurchaseMessage]=useState('Checking secure purchase access…');
+  const [userId,setUserId]=useState<string|null>(null);
+  const [email,setEmail]=useState('');
+  const [authMessage,setAuthMessage]=useState(auth.configured?'Sign in to link purchases to your HoleFilled account.':'Authentication is not configured in this demo build.');
+  const [authBusy,setAuthBusy]=useState(false);
   const [selectedCandidateId,setSelectedCandidateId]=useState(demoScenarios[0].winnerCandidateId);
   const candidates=useMemo(()=>qualifiedCandidates(hole),[hole]);
   const confirmations=useMemo(()=>confirmedCandidates(hole),[hole]);
@@ -39,10 +44,16 @@ export default function App() {
   const assigned=hole.candidates.find(x=>x.id===hole.assignedCandidateId);
 
   useEffect(()=>{
+    let active=true;
+    void auth.session().then(session=>{if(active)setUserId(session?.user.id??null);});
+    return auth.onChange(session=>{if(active)setUserId(session?.user.id??null);});
+  },[]);
+
+  useEffect(()=>{
     const initializePurchases=async()=>{
       try {
-        // RevenueCat creates an anonymous app user ID until production authentication supplies one.
-        await revenueCat.configure();
+        await revenueCat.configure(userId??undefined);
+        if(userId) await revenueCat.login(userId);
         const [entitlement,nextOffering]=await Promise.all([revenueCat.getEntitlement(),revenueCat.getOffering()]);
         setEntitled(entitlement.active);
         setOffering(nextOffering);
@@ -55,7 +66,10 @@ export default function App() {
       }
     };
     void initializePurchases();
-  },[]);
+  },[userId]);
+
+  const sendMagicLink=async()=>{try{setAuthBusy(true);await auth.sendMagicLink(email.trim());setAuthMessage('Check your email for a secure HoleFilled sign-in link.');}catch{setAuthMessage('We could not send a sign-in link. Check the address and Supabase Auth settings.');}finally{setAuthBusy(false);}};
+  const signOut=async()=>{await auth.signOut();setScreen('dashboard');};
 
   const begin=()=>{
     const confirmationCount=hole.candidates.filter(candidate=>(candidate.responseOutcome??(candidate.barrier==='personal'?'declined':'confirmed'))==='confirmed').length;
@@ -100,7 +114,7 @@ export default function App() {
   return <SafeAreaView style={s.safe}><StatusBar style="dark" />
     <View style={[s.header,compact&&s.headerCompact]}>
       <Pressable accessibilityRole="button" accessibilityLabel="Go to dashboard" onPress={()=>setScreen('dashboard')} style={s.brand}><View style={s.brandMark}><Text style={s.brandMarkText}>H</Text></View><View><Text style={s.logo}>HoleFilled</Text>{!compact&&<Text style={s.tag}>Workforce response, resolved.</Text>}</View></Pressable>
-      <View style={[s.headerRight,compact&&s.headerRightCompact]}><Pill label={compact?'Demo':'Demo environment'} tone="blue"/><Pressable accessibilityRole="button" onPress={()=>setScreen('paywall')}><Text style={s.link}>{entitled?'Pro active':'View Pro'}</Text></Pressable></View>
+      <View style={[s.headerRight,compact&&s.headerRightCompact]}><Pill label={userId?'Account linked':compact?'Demo':'Demo environment'} tone="blue"/><Pressable accessibilityRole="button" onPress={()=>setScreen('auth')}><Text style={s.link}>{userId?'Account':'Sign in'}</Text></Pressable><Pressable accessibilityRole="button" onPress={()=>setScreen('paywall')}><Text style={s.link}>{entitled?'Pro active':'View Pro'}</Text></Pressable></View>
     </View>
     <ScrollView contentContainerStyle={[s.page,compact&&s.pageCompact]}>
       {screen==='dashboard'&&<>
@@ -120,7 +134,8 @@ export default function App() {
         <Text accessibilityRole="header" style={s.section}>Decision timeline</Text><View style={s.timeline}>{audit.map(x=><View key={x.id} style={s.timelineItem}><Text style={s.time}>{x.at}</Text><View style={s.grow}><Text style={s.timelineLabel}>{x.label} · {x.actor}</Text><Text style={s.small}>{x.detail}</Text></View></View>)}</View>
       </>}
 
-      {screen==='paywall'&&<View style={s.paywall}><Text style={s.eyebrow}>REVENUECAT-POWERED ACCESS</Text><Text accessibilityRole="header" style={[s.h1,s.paywallTitle]}>Turn every callout into a controlled response.</Text><Text style={s.lead}>HoleFilled Pro unlocks concurrent outreach, policy-controlled negotiation, transportation resolution, and audit history.</Text><View style={s.priceCard}><Text style={s.price}>{offering?.priceString??'$49.00'}<Text style={s.priceUnit}> / month</Text></Text><Text style={s.body}>{offering?.productTitle??'HoleFilled Pro'} · Subscription terms and trial eligibility are confirmed by the device store before purchase.</Text><View accessibilityRole="alert" style={s.purchaseStatus}><Text style={s.purchaseStatusText}>{purchaseMessage}</Text></View><Button label={entitled?'HoleFilled Pro is active':purchaseState==='purchasing'?'Opening secure purchase…':'Start subscription'} onPress={purchase} disabled={entitled||!offering||purchaseState==='purchasing'||purchaseState==='restoring'||purchaseState==='loading'}/><Button label={purchaseState==='restoring'?'Restoring purchases…':'Restore purchases'} onPress={restore} disabled={purchaseState==='purchasing'||purchaseState==='restoring'||purchaseState==='loading'} secondary/></View><Text style={s.small}>Web preview uses a clearly labeled demo entitlement. Native builds use platform-specific RevenueCat public SDK keys and store-configured products.</Text></View>}
+      {screen==='paywall'&&<View style={s.paywall}><Text style={s.eyebrow}>REVENUECAT-POWERED MANAGER ACCESS</Text><Text accessibilityRole="header" style={[s.h1,s.paywallTitle]}>Turn every callout into a controlled response.</Text><Text style={s.lead}>HoleFilled Pro is an optional individual manager subscription for concurrent outreach, policy-controlled negotiation, transportation resolution, and audit history.</Text><View style={s.priceCard}><Text style={s.price}>{offering?.priceString??'$49.00'}<Text style={s.priceUnit}> / month</Text></Text><Text style={s.body}>{offering?.productTitle??'HoleFilled Pro'} · Subscription terms and trial eligibility are confirmed by the device store before purchase.</Text><View accessibilityRole="alert" style={s.purchaseStatus}><Text style={s.purchaseStatusText}>{purchaseMessage}</Text></View><Button label={entitled?'HoleFilled Pro is active':purchaseState==='purchasing'?'Opening secure purchase…':'Start manager subscription'} onPress={purchase} disabled={entitled||!offering||purchaseState==='purchasing'||purchaseState==='restoring'||purchaseState==='loading'}/><Button label={purchaseState==='restoring'?'Restoring purchases…':'Restore purchases'} onPress={restore} disabled={purchaseState==='purchasing'||purchaseState==='restoring'||purchaseState==='loading'} secondary/></View><Text style={s.small}>Employer licenses are provisioned through the organization’s contract, not this screen. Web preview uses a demo entitlement; native builds use store-configured RevenueCat products.</Text></View>}
+      {screen==='auth'&&<View style={s.paywall}><Text style={s.eyebrow}>ACCOUNT ACCESS</Text><Text accessibilityRole="header" style={[s.h1,s.paywallTitle]}>Link your work account.</Text>{userId?<><Text style={s.body}>This account is linked to RevenueCat and tenant access.</Text><Button label="Sign out" onPress={signOut} secondary/></>:<><TextInput accessibilityLabel="Work email" autoCapitalize="none" keyboardType="email-address" placeholder="manager@company.com" placeholderTextColor={c.muted} value={email} onChangeText={setEmail} style={s.input}/><View accessibilityRole="alert" style={s.purchaseStatus}><Text style={s.purchaseStatusText}>{authMessage}</Text></View><Button label={authBusy?'Sending sign-in link…':'Email me a sign-in link'} onPress={sendMagicLink} disabled={!auth.configured||!email.includes('@')||authBusy}/></>}</View>}
       <Text style={s.footer}>Fictional demo data · No UKG, Got2Get2Work, Uber, Lyft, or employer partnership is claimed.</Text>
     </ScrollView>
   </SafeAreaView>;
@@ -144,5 +159,5 @@ const s=StyleSheet.create({
   section:{fontSize:20,fontWeight:'900',color:c.ink,marginTop:8},guardrail:{backgroundColor:c.blueBg,borderWidth:1,borderColor:'#B9D6F3',borderRadius:14,padding:15,gap:4},guardrailTitle:{fontSize:14,fontWeight:'900',color:c.blue},cards:{flexDirection:'row',flexWrap:'wrap',gap:14},candidate:{flex:1,minWidth:260,backgroundColor:c.card,borderWidth:1,borderColor:c.border,borderRadius:18,padding:18,gap:11,shadowColor:c.ink,shadowOffset:{width:0,height:4},shadowOpacity:.035,shadowRadius:10,elevation:1},candidateCompact:{minWidth:0,alignSelf:'stretch',flexBasis:'100%'},candidateName:{fontSize:18,fontWeight:'900',color:c.ink},message:{backgroundColor:c.paper,borderRadius:12,padding:13},messageLabel:{fontSize:10,fontWeight:'900',letterSpacing:.5,color:c.muted},messageText:{fontSize:14,lineHeight:21,color:c.ink,marginTop:4},solution:{color:c.green,fontWeight:'800',lineHeight:20},timeline:{backgroundColor:c.card,borderRadius:18,borderWidth:1,borderColor:c.border,padding:18},timelineItem:{flexDirection:'row',gap:16,paddingVertical:10,borderBottomWidth:1,borderBottomColor:c.border},time:{width:62,fontSize:11,fontWeight:'800',color:c.muted},timelineLabel:{fontWeight:'900',color:c.ink,marginBottom:3,textTransform:'capitalize'},
   shortlist:{gap:10},shortlistItem:{minHeight:68,flexDirection:'row',alignItems:'center',gap:12,backgroundColor:c.card,borderWidth:2,borderColor:c.border,borderRadius:14,padding:14},shortlistSelected:{borderColor:c.green,backgroundColor:'#F0FAF6'},
   success:{backgroundColor:c.green,borderRadius:26,padding:30,gap:12,alignItems:'flex-start'},successMark:{width:52,height:52,borderRadius:26,backgroundColor:'#FFF',alignItems:'center',justifyContent:'center'},successMarkText:{fontSize:28,fontWeight:'900',color:c.green},successKicker:{color:'#BFE9DA',fontWeight:'900',letterSpacing:1.2},successTitle:{color:'#FFF',fontSize:56,lineHeight:61,fontWeight:'900',letterSpacing:-2},successLead:{color:'#E6F6F0',fontSize:19,lineHeight:29,maxWidth:760},successFacts:{flexDirection:'row',flexWrap:'wrap',gap:10,marginVertical:6},successFact:{minWidth:180,backgroundColor:'rgba(255,255,255,.1)',borderRadius:12,padding:13},successFactLabel:{fontSize:9,fontWeight:'900',letterSpacing:.7,color:'#BFE9DA',marginBottom:4},successDetail:{color:'#FFF',fontWeight:'800'},
-  paywall:{backgroundColor:c.card,borderRadius:24,borderWidth:1,borderColor:c.border,padding:28,gap:12},paywallTitle:{color:c.ink},priceCard:{maxWidth:520,backgroundColor:c.paper,borderRadius:18,padding:22,gap:14,marginTop:12},price:{fontSize:40,fontWeight:'900',color:c.ink},priceUnit:{fontSize:16,fontWeight:'600',color:c.muted},purchaseStatus:{backgroundColor:c.card,borderWidth:1,borderColor:c.border,borderRadius:10,padding:12},purchaseStatusText:{fontSize:13,lineHeight:20,fontWeight:'700',color:c.ink},footer:{fontSize:11,lineHeight:17,color:c.muted,textAlign:'center',marginTop:20,marginBottom:10}
+  paywall:{backgroundColor:c.card,borderRadius:24,borderWidth:1,borderColor:c.border,padding:28,gap:12},paywallTitle:{color:c.ink},priceCard:{maxWidth:520,backgroundColor:c.paper,borderRadius:18,padding:22,gap:14,marginTop:12},price:{fontSize:40,fontWeight:'900',color:c.ink},priceUnit:{fontSize:16,fontWeight:'600',color:c.muted},purchaseStatus:{backgroundColor:c.card,borderWidth:1,borderColor:c.border,borderRadius:10,padding:12},purchaseStatusText:{fontSize:13,lineHeight:20,fontWeight:'700',color:c.ink},input:{minHeight:52,maxWidth:520,borderWidth:1,borderColor:c.border,borderRadius:12,paddingHorizontal:14,fontSize:16,color:c.ink,backgroundColor:'#FFF'},footer:{fontSize:11,lineHeight:17,color:c.muted,textAlign:'center',marginTop:20,marginBottom:10}
 });

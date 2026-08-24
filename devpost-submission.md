@@ -54,6 +54,13 @@ The production boundary is a modular monolith backed by tenant-scoped PostgreSQL
 
 RevenueCat is isolated behind native and web adapters. Store entitlements normalize into internal access grants so consumer subscriptions and future enterprise contracts can share one authorization model.
 
+### Live technical foundation (verified August 24, 2026)
+
+- Supabase migrations for the tenant, workforce, billing, audit, and idempotency foundation are deployed to the HoleFilled project.
+- Supabase Auth is wired into the client. A signed-in user is mapped to the same stable RevenueCat app-user identity used by the entitlement adapter.
+- The deployed RevenueCat-to-Supabase webhook verifies the raw-body HMAC signature, rejects unsigned requests, deduplicates provider events, and mirrors access grants. A signed RevenueCat test event returned HTTP 200.
+- These are infrastructure and integration foundations, not a claim that a live store purchase, real employer data connection, or production HR workflow has been completed.
+
 ## Testing Instructions
 
 Prerequisites: a current Node.js installation and npm.
@@ -82,6 +89,8 @@ Project and policy site: https://destr0yering.github.io/holefilled-shipaton-2026
 
 Current RevenueCat Test Store development build: https://expo.dev/accounts/destr0yering/projects/holefilled-shipaton-2026/builds/05a58a82-26a9-4f92-a42d-adc9cfdb72a1
 
+Current Auth-enabled internal Android preview APK: https://expo.dev/artifacts/eas/dnJu61LSB-rooabQYBc6tAwz8MQPZ35zKQn9R34Rq_E.apk
+
 The Android preview is not a published store release. **TODO:** Add the qualifying Google Play, App Store, or Galaxy Store URL.
 
 ## Public Repository Link
@@ -93,6 +102,8 @@ The repository was scanned for likely committed secrets before publication. Deve
 ## Demo Video
 
 **TODO:** Add a public YouTube or Vimeo URL. Keep the video at or below two minutes.
+
+A 31.8-second, silent first cut has been rendered from the supplied app captures at `docs/video-assets/holefilled-submission-first-cut.mp4`. It needs narration or licensed audio, a final review, and public YouTube/Vimeo hosting before it can be used for the entry.
 
 Proposed sequence:
 
@@ -121,11 +132,15 @@ Exact-size no-frame draft captures generated from the verified web build:
 - `docs/submission-assets/03-holefilled-success-1179x2556.png`
 - `docs/submission-assets/04-revenuecat-paywall-1179x2556.png`
 
+All four files were confirmed at exactly 1179×2556 on August 24, 2026. The app-configured icon at `assets/icon-holefilled-1024.png` was confirmed at 1024×1024. These are unapproved local draft assets only: they have not been uploaded to Devpost, and the form checkboxes must remain unmarked until you approve and upload them.
+
 The manager-shortlist and success captures were visually inspected after generation. Capture at least one equivalent native Android screen before final entry delivery if practical.
 
 ## Submission Readiness Notes
 
 The product story, local proof of concept, architecture, tests, and demo script are ready for iteration. The official Shipaton entry is not ready for final delivery until the application is publicly released and the required media and RevenueCat project evidence exist.
+
+Verified live on August 24, 2026: the Devpost project page is published, but the Shipaton entry's `submitted_at` value is still empty. Do not represent the project as submitted.
 
 Recommended award positioning:
 

@@ -13,6 +13,7 @@ export interface PaywallOffering {
 
 export interface RevenueCatService {
   configure(appUserId?: string): Promise<void>;
+  login(appUserId: string): Promise<EntitlementState>;
   getEntitlement(): Promise<EntitlementState>;
   getOffering(): Promise<PaywallOffering | null>;
   purchase(): Promise<EntitlementState>;

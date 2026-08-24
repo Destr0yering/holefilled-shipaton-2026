@@ -88,6 +88,10 @@ Start Metro with `npx expo start --dev-client --lan --port 8082` and connect the
 
 This is a store-ready artifact, not evidence of publication or a completed live billing test. Upload it to Play Console, create and activate the live subscription product, import/link that product in RevenueCat, and test through a Play-distributed testing track.
 
+## Commercial boundary
+
+The RevenueCat offering powers the optional individual **Manager Pro** subscription. It is not the employer licensing system. Employer contracts/invoices provision organization-scoped HoleFilled access separately; both paths resolve through server-side `access_grants` alongside tenant membership. See `COMMERCIAL_MODEL.md` before configuring a web checkout or customer billing flow.
+
 ## SDK keys
 
 Set only RevenueCat public SDK keys in EAS:
@@ -112,6 +116,7 @@ For iOS, use `EXPO_PUBLIC_REVENUECAT_IOS_API_KEY`. Never place a RevenueCat secr
 ## Production follow-up
 
 - Configure authenticated RevenueCat login when application accounts are enabled.
-- Validate RevenueCat webhook signatures server-side.
-- Store processed webhook IDs for idempotency.
-- Normalize entitlement state into internal `access_grants`; never use client claims for employer-tenant authorization.
+- Deploy `supabase/functions/revenuecat-webhook` and set `SUPABASE_SERVICE_ROLE_KEY` plus `REVENUECAT_WEBHOOK_SIGNING_SECRET` as Supabase Edge Function secrets.
+- In RevenueCat **Integrations → Webhooks**, configure the deployed HTTPS endpoint, enable HMAC signing, and store the signing secret only in the Edge Function. The handler validates the raw JSON-body signature with a five-minute replay window, records the event ID idempotently, and mirrors `holefilled_pro` into internal `access_grants`.
+- Configure authenticated RevenueCat login when application accounts are enabled. The app user ID must be the stable HoleFilled profile UUID; anonymous store customers are intentionally ignored by the server-side mirror until they are reconciled.
+- Never use client claims for employer-tenant authorization; production commands require active membership and a non-expired server-side grant.

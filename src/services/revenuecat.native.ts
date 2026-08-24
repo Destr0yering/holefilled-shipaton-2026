@@ -28,6 +28,12 @@ export const revenueCat: RevenueCatService = {
     Purchases.configure(appUserId ? { apiKey, appUserID: appUserId } : { apiKey });
     configured = true;
   },
+  async login(appUserId) {
+    if (!configured) await this.configure(appUserId);
+    if (!configured) return { active: false, mode: 'native', entitlementId, configured };
+    await Purchases.logIn(appUserId);
+    return mapState();
+  },
   async getEntitlement() {
     if (!configured) return { active: false, mode: 'native', entitlementId, configured };
     return mapState();

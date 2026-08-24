@@ -5,6 +5,7 @@ const state = (): EntitlementState => ({ active, mode: 'web-demo', entitlementId
 
 export const revenueCat: RevenueCatService = {
   async configure() {},
+  async login() { return state(); },
   async getEntitlement() { return state(); },
   async getOffering() { return { packageId: 'web-demo-monthly', productTitle: 'HoleFilled Pro', priceString: '$49.00' }; },
   async purchase() { active = true; return state(); },

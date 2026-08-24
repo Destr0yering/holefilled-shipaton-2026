@@ -106,7 +106,7 @@ The dashboard also includes selectable fictional demos for a banquet server, lin
 
 Web preview uses a clearly labeled in-memory entitlement. Native builds load `react-native-purchases` through the platform-specific adapter using `EXPO_PUBLIC_REVENUECAT_IOS_API_KEY` or `EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY`. Only RevenueCat public SDK keys belong in Expo environment variables; secret keys must remain server-side.
 
-Create a RevenueCat entitlement named `holefilled_pro`, attach a monthly store product to the current offering, and configure a free trial or judge promo path. Until authenticated user accounts exist, RevenueCat creates an anonymous app user ID. Production authentication should call RevenueCat login with the stable application user ID and reconcile webhook/customer data into internal access grants. Client entitlement data never grants tenant access by itself.
+`HoleFilled Pro` is an optional individual-manager store subscription. Employer access is provisioned separately through an organization license; it is not sold through the in-app paywall. Create a RevenueCat entitlement named `holefilled_pro`, attach a monthly store product to the current offering, and configure a free trial or judge promo path. Until authenticated user accounts exist, RevenueCat creates an anonymous app user ID. Production authentication should call RevenueCat login with the stable application user ID and reconcile webhook/customer data into internal access grants. Client entitlement data never grants tenant access by itself. See `docs/release/COMMERCIAL_MODEL.md` for the billing, hosting, and authorization boundary.
 
 ## Android release preparation
 
