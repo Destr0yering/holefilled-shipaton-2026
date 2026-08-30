@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
+import { usePreventScreenCapture } from 'expo-screen-capture';
 import { useEffect, useMemo, useState } from 'react';
-import { AccessibilityInfo, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
+import { AccessibilityInfo, Linking, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
 import { demoScenarios } from './src/data';
 import { AuditEvent, DemoScenario, StaffingHole } from './src/domain/models';
 import { acceptCandidate, confirmedCandidates, qualifiedCandidates } from './src/domain/workflow';
@@ -8,7 +9,7 @@ import { PaywallOffering } from './src/services/revenuecat';
 import { revenueCat } from './src/services/revenuecatAdapter';
 import { auth } from './src/services/auth';
 
-type Screen = 'dashboard' | 'incident' | 'paywall' | 'auth';
+type Screen = 'beta' | 'dashboard' | 'incident' | 'paywall' | 'auth';
 type PurchaseState = 'loading' | 'ready' | 'purchasing' | 'restoring' | 'active' | 'unconfigured' | 'error';
 const c = { ink:'#10231F', muted:'#52645F', paper:'#F5F8F6', card:'#FFF', green:'#045844', mint:'#D9F3E9', amber:'#8A4B00', amberBg:'#FFF1D6', red:'#A72E2E', redBg:'#FCE4E4', blue:'#185DA8', blueBg:'#E3EFFC', border:'#D7E1DC' };
 
@@ -23,9 +24,12 @@ function Pill({ label, tone='green' }: { label:string; tone?:'green'|'amber'|'re
 const sectorMark=(sector:DemoScenario['sector'])=>({Distribution:'D',Hospitality:'H','Food service':'F',Healthcare:'+', 'Public sector':'P'}[sector]);
 
 export default function App() {
+  usePreventScreenCapture('holefilled-closed-beta');
   const {width}=useWindowDimensions();
   const compact=width<700;
-  const [screen,setScreen]=useState<Screen>('dashboard');
+  const betaPurchasesEnabled=process.env.EXPO_PUBLIC_ENABLE_BETA_PURCHASES==='true';
+  const [screen,setScreen]=useState<Screen>('beta');
+  const [betaAcknowledged,setBetaAcknowledged]=useState(false);
   const [scenario,setScenario]=useState<DemoScenario>(demoScenarios[0]);
   const [hole,setHole]=useState<StaffingHole>(demoScenarios[0].hole);
   const [audit,setAudit]=useState<AuditEvent[]>(demoScenarios[0].audit);
@@ -50,6 +54,7 @@ export default function App() {
   },[]);
 
   useEffect(()=>{
+    if(!betaPurchasesEnabled){setPurchaseState('unconfigured');setPurchaseMessage('Purchases are unavailable in this beta build.');return;}
     const initializePurchases=async()=>{
       try {
         await revenueCat.configure(userId??undefined);
@@ -66,7 +71,7 @@ export default function App() {
       }
     };
     void initializePurchases();
-  },[userId]);
+  },[betaPurchasesEnabled,userId]);
 
   const sendMagicLink=async()=>{try{setAuthBusy(true);await auth.sendMagicLink(email.trim());setAuthMessage('Check your email for a secure HoleFilled sign-in link.');}catch{setAuthMessage('We could not send a sign-in link. Check the address and Supabase Auth settings.');}finally{setAuthBusy(false);}};
   const signOut=async()=>{await auth.signOut();setScreen('dashboard');};
@@ -113,10 +118,23 @@ export default function App() {
 
   return <SafeAreaView style={s.safe}><StatusBar style="dark" />
     <View style={[s.header,compact&&s.headerCompact]}>
-      <Pressable accessibilityRole="button" accessibilityLabel="Go to dashboard" onPress={()=>setScreen('dashboard')} style={s.brand}><View style={s.brandMark}><Text style={s.brandMarkText}>H</Text></View><View><Text style={s.logo}>HoleFilled</Text>{!compact&&<Text style={s.tag}>Workforce response, resolved.</Text>}</View></Pressable>
-      <View style={[s.headerRight,compact&&s.headerRightCompact]}><Pill label={userId?'Account linked':compact?'Demo':'Demo environment'} tone="blue"/><Pressable accessibilityRole="button" onPress={()=>setScreen('auth')}><Text style={s.link}>{userId?'Account':'Sign in'}</Text></Pressable><Pressable accessibilityRole="button" onPress={()=>setScreen('paywall')}><Text style={s.link}>{entitled?'Pro active':'View Pro'}</Text></Pressable></View>
+      <Pressable accessibilityRole="button" accessibilityLabel="Go to dashboard" onPress={()=>setScreen(betaAcknowledged?'dashboard':'beta')} style={s.brand}><View style={s.brandMark}><Text style={s.brandMarkText}>H</Text></View><View><Text style={s.logo}>HoleFilled</Text>{!compact&&<Text style={s.tag}>Workforce response, resolved.</Text>}</View></Pressable>
+      <View style={[s.headerRight,compact&&s.headerRightCompact]}><Pill label={userId?'Account linked':compact?'Demo':'Demo environment'} tone="blue"/>{auth.configured&&<Pressable accessibilityRole="button" onPress={()=>setScreen(betaAcknowledged?'auth':'beta')}><Text style={s.link}>{userId?'Account':'Sign in'}</Text></Pressable>}{betaPurchasesEnabled&&<Pressable accessibilityRole="button" onPress={()=>setScreen(betaAcknowledged?'paywall':'beta')}><Text style={s.link}>{entitled?'Pro active':'View Pro'}</Text></Pressable>}</View>
     </View>
     <ScrollView contentContainerStyle={[s.page,compact&&s.pageCompact]}>
+      {screen==='beta'&&<View style={s.betaCard}>
+        <Text style={s.eyebrow}>CLOSED BETA ACKNOWLEDGMENT</Text>
+        <Text accessibilityRole="header" style={[s.h1,s.betaTitle]}>Welcome to the HoleFilled demo.</Text>
+        <Text style={s.lead}>This pre-release experience demonstrates a fictional workforce-response workflow. It does not contact workers, make staffing decisions, or connect to employer systems.</Text>
+        <View style={s.betaNotice}><Text style={s.betaNoticeTitle}>Before you enter</Text><Text style={s.small}>Do not enter real employee, customer, payment, health, or other sensitive personal information. This is not an emergency service or a live staffing solution.</Text><Text style={s.small}>Native beta builds block screenshots, screen recording, and recent-app previews to protect beta materials. This cannot prevent someone photographing a device screen.</Text></View>
+        <Pressable accessibilityRole="checkbox" accessibilityLabel="Acknowledge beta confidentiality and data limits" accessibilityState={{checked:betaAcknowledged}} onPress={()=>setBetaAcknowledged(value=>!value)} style={s.checkboxRow}>
+          <View style={[s.checkbox,betaAcknowledged&&s.checkboxChecked]}><Text style={s.checkboxMark}>{betaAcknowledged?'✓':''}</Text></View>
+          <Text style={s.checkboxText}>I understand this is a pre-release demo using fictional data. I will not share screenshots, recordings, or access links publicly; I will report issues through the provided feedback channel; and I will not enter real employee, customer, payment, health, or sensitive personal information.</Text>
+        </Pressable>
+        <View style={s.actions}><Button label="Beta terms" onPress={()=>void Linking.openURL('https://destr0yering.github.io/holefilled-shipaton-2026/beta-terms.html')} secondary/><Button label="Privacy policy" onPress={()=>void Linking.openURL('https://destr0yering.github.io/holefilled-shipaton-2026/privacy.html')} secondary/><Button label="Support" onPress={()=>void Linking.openURL('https://destr0yering.github.io/holefilled-shipaton-2026/support.html')} secondary/></View>
+        <Button label="Enter beta demo" onPress={()=>setScreen('dashboard')} disabled={!betaAcknowledged}/>
+        <Text style={s.betaFinePrint}>This acknowledgement is not an NDA, pilot agreement, employment agreement, or customer contract.</Text>
+      </View>}
       {screen==='dashboard'&&<>
         <View style={s.commandLabel}><View><Text style={s.eyebrow}>HOLEFILLED COMMAND CENTER</Text><Text accessibilityRole="header" style={s.commandTitle}>Coverage operations</Text></View><View style={s.liveStatus}><View style={s.liveDot}/><Text style={s.liveText}>Systems ready</Text></View></View>
         <View style={s.scenarioPanel}><View style={s.between}><View><Text accessibilityRole="header" style={s.scenarioTitle}>Choose an employer use case</Text><Text style={s.small}>Five sectors. One governed response workflow.</Text></View><Pill label="Fictional demo portfolio" tone="blue"/></View><View style={s.scenarioTabs}>{demoScenarios.map(item=><Pressable key={item.id} accessibilityRole="button" accessibilityState={{selected:item.id===scenario.id}} onPress={()=>selectScenario(item)} style={[s.scenarioTab,item.id===scenario.id&&s.scenarioTabActive]}><View style={[s.sectorMark,item.id===scenario.id&&s.sectorMarkActive]}><Text style={[s.sectorMarkText,item.id===scenario.id&&s.scenarioTabTextActive]}>{sectorMark(item.sector)}</Text></View><View style={s.grow}><Text style={[s.scenarioTabText,item.id===scenario.id&&s.scenarioTabTextActive]}>{item.hole.role.split(' — ')[0]}</Text><Text style={[s.scenarioSector,item.id===scenario.id&&s.scenarioSectorActive]}>{item.sector}</Text></View></Pressable>)}</View></View>
@@ -159,5 +177,5 @@ const s=StyleSheet.create({
   section:{fontSize:20,fontWeight:'900',color:c.ink,marginTop:8},guardrail:{backgroundColor:c.blueBg,borderWidth:1,borderColor:'#B9D6F3',borderRadius:14,padding:15,gap:4},guardrailTitle:{fontSize:14,fontWeight:'900',color:c.blue},cards:{flexDirection:'row',flexWrap:'wrap',gap:14},candidate:{flex:1,minWidth:260,backgroundColor:c.card,borderWidth:1,borderColor:c.border,borderRadius:18,padding:18,gap:11,shadowColor:c.ink,shadowOffset:{width:0,height:4},shadowOpacity:.035,shadowRadius:10,elevation:1},candidateCompact:{minWidth:0,alignSelf:'stretch',flexBasis:'100%'},candidateName:{fontSize:18,fontWeight:'900',color:c.ink},message:{backgroundColor:c.paper,borderRadius:12,padding:13},messageLabel:{fontSize:10,fontWeight:'900',letterSpacing:.5,color:c.muted},messageText:{fontSize:14,lineHeight:21,color:c.ink,marginTop:4},solution:{color:c.green,fontWeight:'800',lineHeight:20},timeline:{backgroundColor:c.card,borderRadius:18,borderWidth:1,borderColor:c.border,padding:18},timelineItem:{flexDirection:'row',gap:16,paddingVertical:10,borderBottomWidth:1,borderBottomColor:c.border},time:{width:62,fontSize:11,fontWeight:'800',color:c.muted},timelineLabel:{fontWeight:'900',color:c.ink,marginBottom:3,textTransform:'capitalize'},
   shortlist:{gap:10},shortlistItem:{minHeight:68,flexDirection:'row',alignItems:'center',gap:12,backgroundColor:c.card,borderWidth:2,borderColor:c.border,borderRadius:14,padding:14},shortlistSelected:{borderColor:c.green,backgroundColor:'#F0FAF6'},
   success:{backgroundColor:c.green,borderRadius:26,padding:30,gap:12,alignItems:'flex-start'},successMark:{width:52,height:52,borderRadius:26,backgroundColor:'#FFF',alignItems:'center',justifyContent:'center'},successMarkText:{fontSize:28,fontWeight:'900',color:c.green},successKicker:{color:'#BFE9DA',fontWeight:'900',letterSpacing:1.2},successTitle:{color:'#FFF',fontSize:56,lineHeight:61,fontWeight:'900',letterSpacing:-2},successLead:{color:'#E6F6F0',fontSize:19,lineHeight:29,maxWidth:760},successFacts:{flexDirection:'row',flexWrap:'wrap',gap:10,marginVertical:6},successFact:{minWidth:180,backgroundColor:'rgba(255,255,255,.1)',borderRadius:12,padding:13},successFactLabel:{fontSize:9,fontWeight:'900',letterSpacing:.7,color:'#BFE9DA',marginBottom:4},successDetail:{color:'#FFF',fontWeight:'800'},
-  paywall:{backgroundColor:c.card,borderRadius:24,borderWidth:1,borderColor:c.border,padding:28,gap:12},paywallTitle:{color:c.ink},priceCard:{maxWidth:520,backgroundColor:c.paper,borderRadius:18,padding:22,gap:14,marginTop:12},price:{fontSize:40,fontWeight:'900',color:c.ink},priceUnit:{fontSize:16,fontWeight:'600',color:c.muted},purchaseStatus:{backgroundColor:c.card,borderWidth:1,borderColor:c.border,borderRadius:10,padding:12},purchaseStatusText:{fontSize:13,lineHeight:20,fontWeight:'700',color:c.ink},input:{minHeight:52,maxWidth:520,borderWidth:1,borderColor:c.border,borderRadius:12,paddingHorizontal:14,fontSize:16,color:c.ink,backgroundColor:'#FFF'},footer:{fontSize:11,lineHeight:17,color:c.muted,textAlign:'center',marginTop:20,marginBottom:10}
+  betaCard:{backgroundColor:c.card,borderRadius:24,borderWidth:1,borderColor:c.border,padding:28,gap:16,maxWidth:850,alignSelf:'center'},betaTitle:{color:c.ink,maxWidth:650},betaNotice:{backgroundColor:c.blueBg,borderWidth:1,borderColor:'#B9D6F3',borderRadius:14,padding:16,gap:4},betaNoticeTitle:{fontSize:14,fontWeight:'900',color:c.blue},checkboxRow:{flexDirection:'row',alignItems:'flex-start',gap:12,padding:14,borderWidth:1,borderColor:c.border,borderRadius:14,backgroundColor:c.paper},checkbox:{width:25,height:25,borderRadius:7,borderWidth:2,borderColor:c.green,alignItems:'center',justifyContent:'center',marginTop:1,flexShrink:0},checkboxChecked:{backgroundColor:c.green},checkboxMark:{color:'#FFF',fontSize:17,fontWeight:'900',lineHeight:20},checkboxText:{flex:1,fontSize:14,lineHeight:21,color:c.ink,fontWeight:'600'},betaFinePrint:{fontSize:11,lineHeight:17,color:c.muted},paywall:{backgroundColor:c.card,borderRadius:24,borderWidth:1,borderColor:c.border,padding:28,gap:12},paywallTitle:{color:c.ink},priceCard:{maxWidth:520,backgroundColor:c.paper,borderRadius:18,padding:22,gap:14,marginTop:12},price:{fontSize:40,fontWeight:'900',color:c.ink},priceUnit:{fontSize:16,fontWeight:'600',color:c.muted},purchaseStatus:{backgroundColor:c.card,borderWidth:1,borderColor:c.border,borderRadius:10,padding:12},purchaseStatusText:{fontSize:13,lineHeight:20,fontWeight:'700',color:c.ink},input:{minHeight:52,maxWidth:520,borderWidth:1,borderColor:c.border,borderRadius:12,paddingHorizontal:14,fontSize:16,color:c.ink,backgroundColor:'#FFF'},footer:{fontSize:11,lineHeight:17,color:c.muted,textAlign:'center',marginTop:20,marginBottom:10}
 });

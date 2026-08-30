@@ -20,7 +20,7 @@ record(Boolean(app.expo.extra?.eas?.projectId), 'EAS project is linked');
 record(width === 1024 && height === 1024, 'Store icon is exactly 1024×1024');
 record(app.expo.android?.permissions?.length === 0, 'Preview requests no unnecessary Android permissions');
 
-for (const path of ['../docs/privacy.html', '../docs/support.html', '../docs/release/REVENUECAT_SETUP.md']) {
+for (const path of ['../docs/privacy.html', '../docs/support.html', '../docs/beta-terms.html', '../docs/terms.html', '../docs/account-deletion.html', '../docs/release/REVENUECAT_SETUP.md']) {
   try {
     await readFile(new URL(path, import.meta.url));
     record(true, `${path.replace('../', '')} exists`);

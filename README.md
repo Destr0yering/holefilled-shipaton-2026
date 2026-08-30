@@ -87,6 +87,9 @@ The bundle is ready for Google Play upload. It is not considered published, and 
 
 - Project: https://destr0yering.github.io/holefilled-shipaton-2026/
 - Privacy policy: https://destr0yering.github.io/holefilled-shipaton-2026/privacy.html
+- Closed-beta terms: https://destr0yering.github.io/holefilled-shipaton-2026/beta-terms.html
+- Terms of use: https://destr0yering.github.io/holefilled-shipaton-2026/terms.html
+- Account deletion: https://destr0yering.github.io/holefilled-shipaton-2026/account-deletion.html
 - Support: https://destr0yering.github.io/holefilled-shipaton-2026/support.html
 
 These HTTPS pages are suitable for preview and store-listing preparation. Add a private support email and production legal entity details before public launch.
